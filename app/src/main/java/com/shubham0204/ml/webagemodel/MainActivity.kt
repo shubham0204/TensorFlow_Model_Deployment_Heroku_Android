@@ -5,18 +5,14 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.shubham0204.ml.webagemodel.databinding.ActivityMainBinding
-import java.util.*
-import kotlin.math.floor
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView( activityMainBinding.root )
 
         progressDialog = ProgressDialog( this )
-
+        progressDialog.setCancelable( false )
         activityMainBinding.selectImageButton.setOnClickListener {
             dispatchSelectPictureIntent()
         }
@@ -90,6 +86,7 @@ class MainActivity : AppCompatActivity() {
                                 "Try clicking another image or improve the lightning or the device rotation." )
                         setPositiveButton( "OK") { dialog, which ->
                             dialog.dismiss()
+                            progressDialog.dismiss()
                         }
                         setCancelable( false )
                         create()
@@ -106,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 progressDialog.dismiss()
                 val dialog = AlertDialog.Builder( this@MainActivity ).apply {
-                    title = "An error unoccured"
+                    title = "An error occurred"
                     setMessage( error )
                     setPositiveButton( "OK") { dialog, which ->
                         dialog.dismiss()
